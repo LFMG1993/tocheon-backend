@@ -1,0 +1,23 @@
+{
+	"name": "tocheon-backend",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev --remote",
+		"start": "wrangler dev",
+		"test": "vitest",
+		"cf-typegen": "wrangler types"
+	},
+	"dependencies": {
+		"@google/generative-ai": "^0.14.1",
+		"hono": "^4.5.1"
+	},
+	"devDependencies": {
+		"@cloudflare/workers-types": "^4.20240620.0",
+		"@cloudflare/vitest-pool-workers": "^0.8.19",
+		"typescript": "^5.5.2",
+		"vitest": "~3.2.0",
+		"wrangler": "^4.45.0"
+	}
+}
