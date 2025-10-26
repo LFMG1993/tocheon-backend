@@ -6,11 +6,9 @@ import {getGeminiSuggestions} from "./handlers/suggestions.handler";
 const app = new Hono<{ Bindings: Env }>();
 
 // --- Middlewares Globales ---
-const corsMiddleware = cors({
+app.use('*', cors({
 	origin: (origin, c) => {
-		const allowedOrigins = c.env.CORS_ALLOWED_ORIGINS
-			? c.env.CORS_ALLOWED_ORIGINS.split(',').map((o: string) => o.trim())
-			: [];
+		const allowedOrigins = (c.env.CORS_ALLOWED_ORIGINS || "").split(',');
 		if (allowedOrigins.includes(origin)) {
 			return origin;
 		}
@@ -18,9 +16,8 @@ const corsMiddleware = cors({
 	},
 	allowMethods: ['GET', 'POST', 'OPTIONS'],
 	allowHeaders: ['Content-Type', 'Authorization'],
-});
-
-app.use('/api/*', corsMiddleware);
+	maxAge: 600, // Opcional: Cachea la respuesta preflight por 10 minutos.
+}));
 // --- Rutas de la API ---
 
 app.post('/api/suggest', async (c) => {
