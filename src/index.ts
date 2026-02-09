@@ -16,7 +16,7 @@ app.use('*', cors({
 	},
 	allowMethods: ['GET', 'POST', 'OPTIONS'],
 	allowHeaders: ['Content-Type', 'Authorization'],
-	maxAge: 600, // Opcional: Cachea la respuesta preflight por 10 minutos.
+	maxAge: 600,
 }));
 // --- Rutas de la API ---
 
