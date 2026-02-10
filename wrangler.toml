@@ -8,4 +8,4 @@ CORS_ALLOWED_ORIGINS = "https://tocheon.pages.dev"
 
 [dev.vars]
 # Wrangler cargará estas variables cuando se ejecute en modo de desarrollo.
-CORS_ALLOWED_ORIGINS = "http://localhost:5173"
+CORS_ALLOWED_ORIGINS = "http://localhost:5173,http://localhost:4173"
