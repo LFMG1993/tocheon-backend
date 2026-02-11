@@ -4,8 +4,5 @@ compatibility_date = "2024-03-22"
 
 [vars]
 # En producción, solo permitiremos el origen de cloudflare.
-CORS_ALLOWED_ORIGINS = "https://tocheon.pages.dev"
+CORS_ALLOWED_ORIGINS = "https://tocheon.pages.dev,http://localhost:5173"
 
-[dev.vars]
-# Wrangler cargará estas variables cuando se ejecute en modo de desarrollo.
-CORS_ALLOWED_ORIGINS = "http://localhost:5173,http://localhost:4173"
