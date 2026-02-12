@@ -3,6 +3,10 @@ main = "src/index.ts"
 compatibility_date = "2024-03-22"
 
 [vars]
-# En producción, solo permitiremos el origen de cloudflare.
 CORS_ALLOWED_ORIGINS = "https://tocheon.pages.dev,http://localhost:5173"
+VITE_FIREBASE_PROJECT_ID = "tocheon-e77c8"
 
+[[kv_namespaces]]
+binding = "OTP_STORE"
+id = "5d9e7e572b2240b99251e1d24311c0b5"
+preview_id = "3059672ed24c4fab9bc5f35a0476cbc5"

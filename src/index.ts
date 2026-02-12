@@ -1,6 +1,7 @@
 import {Hono} from 'hono';
 import {cors} from 'hono/cors';
 import suggestionRoutes from './routes/suggestion.routes';
+import authRoutes from './routes/auth.routes';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -18,6 +19,9 @@ app.use('*', cors({
 
 // Recomendaciones IA
 app.route('/api/suggest', suggestionRoutes);
+
+// Autenticación WhatsApp
+app.route('/api/auth', authRoutes);
 
 // Manejo de Errores Global
 app.notFound((c) => c.json({success: false, error: 'Ruta no encontrada'}, 404));
