@@ -2,8 +2,8 @@ interface Env {
 	GEMINI_API_KEY: string;
 	CORS_ALLOWED_ORIGINS: string;
 	GROQ_API_KEY: string;
-	SPAIID_APP_KEY: string;
-	SPAIID_AUTH_KEY: string;
+	SPAIID_API_TOKEN: string;
+	SPAIID_WHATSAPP_ID: string;
 	FIREBASE_SERVICE_ACCOUNT_EMAIL: string;
 	FIREBASE_PRIVATE_KEY: string;
 	FIREBASE_PROJECT_ID: string;

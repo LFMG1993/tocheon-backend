@@ -1,61 +1,59 @@
 export class WhatsappService {
-	private appKey: string;
-	private authKey: string;
+	private apiToken: string;
+	private whatsappId: string;
 
-	constructor(appKey: string, authKey: string) {
-		this.appKey = appKey;
-		this.authKey = authKey;
+	constructor(apiToken: string, whatsappId: string) {
+		this.apiToken = apiToken;
+		this.whatsappId = whatsappId;
 	}
 
 	// Normaliza el teléfono.
 	normalizePhone(phone: string, countryCode: string = ''): string {
-		// Si el teléfono no incluye el código de país, lo concatenamos
 		let fullPhone = phone;
 		if (!phone.startsWith(countryCode) && countryCode) {
 			fullPhone = countryCode + phone;
 		}
 
-		// Eliminar no dígitos y ceros a la izquierda
 		fullPhone = fullPhone.replace(/\D/g, '').replace(/^0+/, '');
 		return fullPhone;
 	}
 
 	async sendOtp(phone: string, otp: string): Promise<boolean> {
 		const mensajes = [
-			`Tu verificación es: ${otp}`,
-			`Hola, tu código es: ${otp}`,
-			`Aquí tienes tu código de acceso: ${otp}`,
-			`Utiliza este código para continuar: ${otp}`,
-			`Recibiste un código de verificación: ${otp}`,
-			`¡Hola! Este es tu código temporal: ${otp}`,
-			`Código de seguridad: ${otp}`,
-			`Por favor ingresa este código: ${otp}`,
-			`Tu código para PedidosVen es: ${otp}`,
-			`Atención, tu código es: ${otp}`,
+			`Toche On: Tu codigo de verificación es: ${otp}`,
 		];
 
-		// Seleccionar mensaje aleatorio
 		const mensaje = mensajes[Math.floor(Math.random() * mensajes.length)];
 
-		// Preparar FormData (Spaiid parece usar multipart/form-data basado en el PHP array)
-		const formData = new FormData();
-		formData.append('app_key', this.appKey);
-		formData.append('auth_key', this.authKey);
-		formData.append('to', phone);
-		formData.append('message', mensaje);
+		const payload = {
+			number: phone,
+			body: mensaje
+		};
 
 		try {
-			const response = await fetch('https://spaiid.com/api/whatsapp-web/send-message', {
+			const response = await fetch(`https://api.spaiid.com/api/messages/send?whatsappId=${this.whatsappId}`, {
 				method: 'POST',
-				body: formData,
+				headers: {
+					'Authorization': `Bearer ${this.apiToken}`,
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(payload),
 			});
 
-			const data: any = await response.json();
+			const responseText = await response.text();
+			let data: any;
 
-			if (data && data.data && data.data.success === true) {
+			try {
+				data = JSON.parse(responseText);
+			} catch (e) {
+				console.error(`❌ Error Spaiid (No es JSON). Status: ${response.status}. Respuesta:`, responseText);
+				return false;
+			}
+
+			if (data && data.success === true) {
 				return true;
 			}
-			console.error('Error Spaiid API:', data);
+			console.error('❌ Error Spaiid API (Success false):', data);
 			return false;
 		} catch (error) {
 			console.error('Error enviando WhatsApp:', error);
